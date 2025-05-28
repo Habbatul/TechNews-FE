@@ -1,0 +1,13 @@
+{
+  "name": "technews-fe",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "main.js",
+  "dependencies": {
+    "alpinejs": "^3.14.9"
+  },
+  "devDependencies": {
+    "vite": "^6.3.5"
+  }
+}
