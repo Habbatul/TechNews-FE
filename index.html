@@ -4,35 +4,32 @@
     <meta charset="UTF-8" />
     <title>Feed Viewer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
     <script type="module" src="/main.js"></script>
-
-    <style>
-      body {
-        transition: background-color 0.3s, color 0.3s;
-      }
-    </style>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body
     x-data="themeSwitcher()"
     x-init="init()"
-    :class="dark ? 'dark bg-[#101010] text-gray-100' : 'bg-gray-100 text-gray-800'"
-    class="min-h-screen mx-4"
+    :data-theme="dark ? 'dark' : 'light'"
+    class="min-h-screen dark:bg-[#101010] dark:text-gray-100 bg-gray-100 text-gray-800 mx-4"
   >
     <header
-      :class="dark ? 'bg-[#222222]/40 shadow-white/15':'bg-white shadow-black/15'"
-      class="shadow-sm -mx-4"
+      class="dark:bg-black/80 dark:shadow-white/15 bg-white shadow-black/15 shadow-sm -mx-4"
     >
       <div
         class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between"
       >
         <h1 class="text-xl font-bold">TechNews</h1>
         <nav class="space-x-4">
-          <a href="#api-doc" class="hover:text-blue-600 font-medium">API-Doc</a>
+          <a
+            href="#api-doc"
+            class="hover:text-blue-600 dark:hover:text-green-600 font-medium"
+          >
+            API-Doc
+          </a>
           <button
             @click="toggleTheme"
-            class="font-medium hover:text-blue-600"
+            class="font-medium hover:text-blue-600 dark:hover:text-green-600 hover:cursor-pointer"
             x-text="dark ? '☀️ Light Mode' : '🌙 Dark Mode'"
           ></button>
         </nav>
@@ -42,20 +39,19 @@
     <div
       x-data="feedApp()"
       x-init="loadFeed();loadResume()"
-      class="max-w-5xl mx-auto mt-10"
+      class="max-w-5xl mx-auto mt-8"
     >
       <section
         x-data="{ showSection: true }"
-        :class="dark ? 'border-white/40':'border-black/40'"
-        class="mb-10 border-b-2 border-black/40 pb-6"
+        class="dark:border-white/40 border-black/40 mb-10 border-b-2 border-black/40 pb-6"
       >
         <button
           @click="showSection = !showSection"
-          class="font-medium text-3xl mb-5 flex items-center gap-2 hover:text-red-700"
+          class="font-medium text-2xl md:text-3xl mb-5 flex items-center gap-2 hover:text-red-700 cursor-pointer"
         >
           <span
             :class="showSection ? 'rotate-90' : 'rotate-0'"
-            class="transition-transform duration-200 text-[1.6rem]"
+            class="transition-transform duration-200 text-[1.3rem] md:text-[1.6rem]"
             >➤</span
           >
           <span>Rangkuman Berita</span>
@@ -73,40 +69,38 @@
                 <a
                   :href="data.source"
                   x-text="data.source"
-                  class="text-red-700 hover:text-red-400 hover:underline"
+                  class="dark:text-green-500 text-blue-600 hover:text-red-500 hover:underline"
+                  target="_blank"
                 ></a>
               </p>
             </div>
           </template>
 
           <template x-if="!Object.keys(resumes).length">
-            <p class="text-gray-500 text-center">Belum ada resume.</p>
+            <p class="dark:text-gray-300/60 text-gray-500 text-center">Belum ada resume.</p>
           </template>
         </div>
       </section>
 
       <div class="mb-8">
-        <h1 class="font-medium text-3xl mb-2">Daftar Berita</h1>
-        <p class="pl-[0.2rem] text-lg">Berita 7 hari terakhir</p>
+        <h1 class="font-medium text-2xl md:text-3xl mb-2">Daftar Berita</h1>
+        <p class="pl-[0.1rem] md:pl-[0.2rem] text-lg">Berita 7 hari terakhir</p>
       </div>
 
       <nav class="flex flex-wrap gap-2 mb-6">
         <template x-for="(items, key) in feeds" :key="key">
           <button
             @click="selected = key"
-            class="px-4 py-2 rounded text-sm font-medium"
+            class="px-4 py-2 rounded text-sm font-medium cursor-pointer"
             :class="selected === key
-            ? (dark ? 'bg-green-500 text-black' : 'bg-blue-600 text-white')
-            : (dark ? 'bg-white/10 text-white border border-black hover:bg-white/15' : 'bg-white text-gray-800 border border-gray-300 hover:bg-gray-100')"
+            ? 'dark:bg-green-500 dark:text-black bg-blue-600 text-white'
+            : 'dark:bg-white/10 dark:text-white dark:border dark:border-black dark:hover:bg-white/15 bg-white text-gray-800 border border-gray-300 hover:bg-gray-100'"
             x-text="key"
           ></button>
         </template>
       </nav>
 
-      <div
-        :class="dark ? 'bg-white/10' : 'bg-white'"
-        class="rounded shadow p-4"
-      >
+      <div class="dark:bg-white/10 bg-white rounded shadow p-4">
         <template x-if="feeds[selected] && feeds[selected].length">
           <ul class="space-y-3">
             <template x-for="item in feeds[selected]" :key="item.link">
@@ -114,13 +108,11 @@
                 <a
                   :href="item.link"
                   target="_blank"
-                  :class="dark ? 'text-green-500' :'text-blue-600'"
-                  class="hover:underline font-semibold"
+                  class="dark:text-green-500 text-blue-600 hover:underline font-semibold"
                   x-text="item.title"
                 ></a>
                 <div
-                  :class="dark ? ' text-gray-300/80' :'text-gray-500'"
-                  class="text-sm"
+                  class="dark:text-gray-300/80 text-gray-500 text-sm"
                   x-text="new Date(item.published).toLocaleString()"
                 ></div>
               </li>
@@ -128,10 +120,7 @@
           </ul>
         </template>
         <template x-if="!feeds[selected] || feeds[selected].length === 0">
-          <p
-            :class="dark ? ' text-gray-300/80' :'text-gray-500'"
-            class="text-center"
-          >
+          <p class="dark:text-gray-300/60 text-gray-500 text-center">
             Tidak ada data pada sumber ini seminggu terakhir.
           </p>
         </template>
@@ -142,15 +131,10 @@
       class="mt-[2.5rem] md:mt-[3.5rem] mb-5 mb-7 text-center text-sm flex justify-center"
     >
       <div
-        :class="dark ? 'bg-white/5 text-white/80 border-white/10':'bg-white text-gray-600'"
-        class="px-8 border-2 py-2"
+        class="dark:bg-white/5 dark:text-white/80 dark:border-white/10 bg-white text-gray-600 px-8 border-2 border-black/10 py-2"
       >
         Made by
-        <span
-          :class="dark ? ' text-white':'text-gray-800'"
-          class="font-semibold"
-          >hq.han</span
-        >
+        <span class="dark:text-white text-gray-800 font-semibold">hq.han</span>
         powered with AlpineJS and Tailwind V4 &copy; 2025
       </div>
     </footer>

@@ -7,7 +7,7 @@ window.feedApp = function () {
         selected: '',
         async loadFeed() {
             try {
-                const res = await fetch('http://xxxx')
+                const res = await fetch('xxxx')
                 const data = await res.json()
                 this.feeds = data
                 this.selected = Object.keys(data)[0] || ''
@@ -17,7 +17,7 @@ window.feedApp = function () {
         },
         async loadResume() {
             try {
-                const res = await fetch('http://xxxx')
+                const res = await fetch('xxxx')
                 const data = await res.json()
                 this.resumes = data
                 console.log(feedApp().resumes)
@@ -29,7 +29,7 @@ window.feedApp = function () {
 }
 
 
-window.themeSwitcher = function () {
+window.themeSwitcher = function(){
     return {
         dark: false,
         init() {
@@ -37,14 +37,10 @@ window.themeSwitcher = function () {
                 localStorage.theme === "dark" ||
                 (!("theme" in localStorage) &&
                     window.matchMedia("(prefers-color-scheme: dark)").matches);
-
-            console.log("Init themeSwitcher - dark mode:", this.dark);
         },
         toggleTheme() {
             this.dark = !this.dark;
             localStorage.theme = this.dark ? "dark" : "light";
-
-            console.log("Toggled theme - dark mode:", this.dark);
         },
     };
 }
