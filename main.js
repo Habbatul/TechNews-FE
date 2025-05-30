@@ -7,7 +7,7 @@ window.feedApp = function () {
         selected: '',
         async loadFeed() {
             try {
-                const res = await fetch('http://xxxx')
+                const res = await fetch('xxx')
                 const data = await res.json()
                 this.feeds = data
                 this.selected = Object.keys(data)[0] || ''
@@ -17,7 +17,7 @@ window.feedApp = function () {
         },
         async loadResume() {
             try {
-                const res = await fetch('http://xxxx')
+                const res = await fetch('xxx')
                 const data = await res.json()
                 this.resumes = data
                 console.log(feedApp().resumes)
@@ -28,27 +28,21 @@ window.feedApp = function () {
     }
 }
 
-
+//window.matchMedia('(prefers-color-scheme: dark)').matches; ditaruh di non modules script
 window.themeSwitcher = function () {
     return {
         dark: false,
         init() {
-            this.dark =
-                localStorage.theme === "dark" ||
-                (!("theme" in localStorage) &&
-                    window.matchMedia("(prefers-color-scheme: dark)").matches);
-
-            console.log("Init themeSwitcher - dark mode:", this.dark);
+            this.dark = localStorage.theme === "dark" 
         },
         toggleTheme() {
             this.dark = !this.dark;
-            localStorage.theme = this.dark ? "dark" : "light";
-
-            console.log("Toggled theme - dark mode:", this.dark);
+            const newTheme = localStorage.theme = this.dark ? "dark" : "light";;
+            document.documentElement.setAttribute("data-theme", newTheme);
         },
     };
-}
-
+};
+  
 
 window.Alpine = Alpine
 Alpine.start()
