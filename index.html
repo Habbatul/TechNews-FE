@@ -42,15 +42,16 @@
       >
         <button
           @click="showSection = !showSection"
-          class="font-medium text-2xl md:text-3xl mb-5 flex items-center gap-2 hover:text-red-700 cursor-pointer"
+          class="font-medium text-2xl md:text-3xl mb-3 flex items-center gap-2 hover:text-red-700 cursor-pointer"
         >
           <span
             :class="showSection ? 'rotate-90' : 'rotate-0'"
             class="transition-transform duration-200 text-[1.3rem] md:text-[1.6rem]"
             >➤</span
           >
-          <span>Rangkuman Berita</span>
+          <span>Rangkuman Berita</span> 
         </button>
+        <div class="text-sm text-gray-400 mb-5 font-medium">This resume is created by LLM. It may not be 100% Accurate.</div>
 
         <div x-show="showSection">
           <template x-for="(data, key) in resumes.resume" :key="key">
