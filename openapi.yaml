@@ -1,0 +1,92 @@
+openapi: 3.0.4
+info:
+  title: Tech News API
+  description: >
+    This API aggregates some Tech newspaper feed. More about the project go visit : 
+    
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:xxxx/api
+    description: Local development server
+
+paths:
+  /feed:
+    get:
+      summary: Get aggregated RSS feed data
+      description: Returns the latest 7 days feed news
+      responses:
+        '200':
+          description: List of latest 7 days feed news
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  oneOf:
+                    - type: array
+                      items:
+                        type: object
+                        properties:
+                          title:
+                            type: string
+                          link:
+                            type: string
+                            format: uri
+                          published:
+                            type: string
+                            format: date-time
+                          source:
+                            type: string
+    post:
+      summary: Trigger update or refresh feed data (Requires public-key header)
+      description: update feed data. Requires `public-key` header.
+      security:
+        - publicKeyHeader: []
+      responses:
+        '200':
+          description: Feed data successfully updated or refreshed
+
+  /resume:
+    get:
+      summary: Get the resume data
+      description: get summarized news.
+      responses:
+        '200':
+          description: Summary data
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    resume1:
+                      type: object
+                      properties:
+                        result:
+                          type: string
+                        source:
+                          type: string
+                    resume2:
+                      type: object
+                      properties:
+                        result:
+                          type: string
+                        source:
+                          type: string
+
+    post:
+      summary: Trigger update resume data (Requires public-key header)
+      description: Posts or updates resume data. Requires `public-key` header.
+      security:
+        - publicKeyHeader: []
+      responses:
+        '200':
+          description: Resume data successfully submitted
+
+components:
+  securitySchemes:
+    publicKeyHeader:
+      type: apiKey
+      in: header
+      name: public-key
+      description: Public key required for POST requests

@@ -1,5 +1,7 @@
 import Alpine from 'alpinejs'
 
+const baseUrl = "xxxx"
+
 window.feedApp = function () {
     return {
         feeds: {},
@@ -7,7 +9,7 @@ window.feedApp = function () {
         selected: '',
         async loadFeed() {
             try {
-                const res = await fetch('xxx')
+                const res = await fetch(`${baseUrl}/api/feed`)
                 const data = await res.json()
                 this.feeds = data
                 this.selected = Object.keys(data)[0] || ''
@@ -17,7 +19,7 @@ window.feedApp = function () {
         },
         async loadResume() {
             try {
-                const res = await fetch('xxx')
+                const res = await fetch(`${baseUrl}/api/resume`)
                 const data = await res.json()
                 this.resumes = data
                 console.log(feedApp().resumes)
